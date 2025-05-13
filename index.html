@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-heartbeat"></i>
+            <span>Health Tracker</span>
+        </div>
+        <div class="navbar-links">
+            <a href="#" class="nav-item" onclick="showHome()"><i class="fas fa-home"></i> Home</a>
+            <a href="#" class="nav-item" id="dashboard-link" style="display:none;" onclick="showDashboard(JSON.parse(localStorage.getItem('currentUser')))"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div class="home-container" id="home-container">
+            <div class="hero-section">
+                <h1>Welcome to Health Tracker</h1>
+                <p>Your personal health monitoring companion</p>
+                <div class="cta-buttons">
+                    <button class="btn-primary" onclick="showRegister()">Get Started</button>
+                    <button class="btn-secondary" onclick="showLogin()">Login</button>
+                </div>
+            </div>
+            
+            <div class="features-section">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure Data</h3>
+                    <p>Your health data is encrypted and protected</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Visual Analytics</h3>
+                    <p>Track your progress with interactive charts</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bell"></i>
+                    <h3>Smart Alerts</h3>
+                    <p>Get notified about important health changes</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="form-container" id="register-container" style="display:none;">
+            <div class="form-card">
+                <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirm Password</label>
+                    <input type="password" id="register-confirm-password" placeholder="Confirm your password" required>
+                </div>
+                <button class="btn-primary" onclick="registerUser()">Register</button>
+                <p class="form-footer">Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="form-container" id="login-container" style="display:none;">
+            <div class="form-card">
+                <h2><i class="fas fa-sign-in-alt"></i> Welcome Back</h2>
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                </div>
+                <button class="btn-primary" onclick="loginUser()">Login</button>
+                <p class="form-footer">Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard-container" id="dashboard-container" style="display:none;">
+            <div class="dashboard-header">
+                <h2>Welcome back, <span id="logged-in-user"></span></h2>
+                <button class="btn-logout" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="data-entry-card">
+                    <h3><i class="fas fa-plus-circle"></i> Add Health Data</h3>
+                    <div class="form-group">
+                        <label for="height">Height (cm)</label>
+                        <input type="number" id="height" placeholder="Enter height">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight (kg)</label>
+                        <input type="number" id="weight" placeholder="Enter weight">
+                    </div>
+                    <div class="form-group">
+                        <label for="bp">Blood Pressure</label>
+                        <input type="text" id="bp" placeholder="e.g. 120/80">
+                    </div>
+                    <div class="form-group">
+                        <label for="sugar">Blood Sugar (mg/dL)</label>
+                        <input type="number" id="sugar" placeholder="Enter sugar level">
+                    </div>
+                    <button class="btn-primary" onclick="saveHealthData()"><i class="fas fa-save"></i> Save Data</button>
+                </div>
+                
+                <div class="data-display-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> Your Health Records</h3>
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="search" placeholder="Search by date..." onkeyup="searchHealthData()">
+                        </div>
+                    </div>
+                    <div class="data-list-container">
+                        <ul id="health-data-list"></ul>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h3><i class="fas fa-chart-bar"></i> Health Trends</h3>
+                    <canvas id="health-chart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
